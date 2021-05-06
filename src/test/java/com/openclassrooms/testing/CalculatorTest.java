@@ -26,25 +26,25 @@ class CalculatorTest {
     private static Instant start;
 
     @BeforeEach
-    public void initCalculator() {
+    void initCalculator() {
         System.out.println("init calculator before each test");
         calculatorUnderTest = new Calculator();
     }
 
     @AfterEach
-    public void calculatorNull() {
+    void calculatorNull() {
         System.out.println("null after each test");
         calculatorUnderTest = null;
     }
 
     @BeforeAll
-    public static void initTime() {
+    static void initTime() {
         System.out.println("time before exec");
         start = Instant.now();
     }
 
     @AfterAll
-    public static void duration() {
+    static void duration() {
         Instant end = Instant.now();
         long duration = Duration.between(start, end).toMillis();
 
@@ -82,7 +82,7 @@ class CalculatorTest {
 
     @ParameterizedTest(name = "{0} * 0 should result 0")
     @ValueSource(ints = {1, 21, 42, 63, 98})
-    public void multiplyZero(int var) {
+    void multiplyZero(int var) {
 
         int multiply = calculatorUnderTest.multiply(var, 0);
 
@@ -92,7 +92,7 @@ class CalculatorTest {
 
     @ParameterizedTest(name = "{0} * {1} should equal {2}")
     @CsvSource({"3,2,6", "4,4,16"})
-    public void multiplyManyArgs(int var, int var2, int expectedResult) {
+    void multiplyManyArgs(int var, int var2, int expectedResult) {
 
         int multiply = calculatorUnderTest.multiply(var, var2);
 
@@ -100,7 +100,7 @@ class CalculatorTest {
     }
 
     @Test
-    public void digitalNumberTest() {
+    void digitalNumberTest() {
         int number = 5368;
 
         Set<Integer> actualResult = calculatorUnderTest.digitalOp(number);

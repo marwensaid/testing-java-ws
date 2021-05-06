@@ -1,20 +1,19 @@
 package com.openclassrooms.testing;
 
-import java.util.Collections;
 import java.util.HashSet;
 import java.util.Set;
 
-public class Calculator {
+class Calculator {
 
-    public int add(int a, int b) {
+    int add(int a, int b) {
         return a + b;
     }
 
-    public int multiply(int a, int b) {
+    int multiply(int a, int b) {
         return a * b;
     }
 
-    public Set<Integer> digitalOp(int number) {
+    Set<Integer> digitalOp(int number) {
 
         HashSet<Integer> integers = new HashSet<>();
         String numberString = String.valueOf(number);
