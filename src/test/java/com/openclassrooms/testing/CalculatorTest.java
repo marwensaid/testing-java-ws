@@ -7,6 +7,9 @@ import org.junit.jupiter.api.AfterEach;
 import org.junit.jupiter.api.BeforeAll;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
+import org.junit.jupiter.params.ParameterizedTest;
+import org.junit.jupiter.params.provider.CsvSource;
+import org.junit.jupiter.params.provider.ValueSource;
 
 import java.text.MessageFormat;
 import java.time.Duration;
@@ -69,5 +72,25 @@ class CalculatorTest {
 
 
     }
+
+    @ParameterizedTest(name = "{0} * 0 should result 0")
+    @ValueSource(ints = {1, 21, 42, 63, 98})
+    public void multiplyZero(int var) {
+
+        int multiply = calculatorUnderTest.multiply(var, 0);
+
+        assertEquals(0, multiply);
+    }
+
+
+    @ParameterizedTest(name = "{0} * {1} should equal {2}")
+    @CsvSource({"3,2,6", "4,4,16"})
+    public void multiplyManyArgs(int var, int var2, int expectedResult) {
+
+        int multiply = calculatorUnderTest.multiply(var, var2);
+
+        assertEquals(expectedResult, multiply);
+    }
+
 
 }
