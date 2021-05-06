@@ -1,5 +1,6 @@
 package com.openclassrooms.testing;
 
+import static org.assertj.core.api.Assertions.assertThat;
 import static org.junit.jupiter.api.Assertions.*;
 
 import org.junit.jupiter.api.AfterAll;
@@ -14,6 +15,9 @@ import org.junit.jupiter.params.provider.ValueSource;
 import java.text.MessageFormat;
 import java.time.Duration;
 import java.time.Instant;
+import java.util.Set;
+import java.util.stream.Collectors;
+import java.util.stream.Stream;
 
 class CalculatorTest {
 
@@ -59,6 +63,9 @@ class CalculatorTest {
 
         // Assert
         assertEquals(5, somme);
+
+        // Assert with AssertJ
+        assertThat(somme).isEqualTo(5);
     }
 
     @Test
@@ -92,5 +99,19 @@ class CalculatorTest {
         assertEquals(expectedResult, multiply);
     }
 
+    @Test
+    public void digitalNumberTest() {
+        int number = 5368;
+
+        Set<Integer> actualResult = calculatorUnderTest.digitalOp(number);
+
+        // Assert with AssertJ
+        assertThat(actualResult).containsExactlyInAnyOrder(5, 6, 3, 8);
+
+        // assert with Junit
+        Set<Integer> expectedResult = Stream.of(5, 3, 6, 8).collect(Collectors.toSet());
+        assertEquals(expectedResult, actualResult);
+
+    }
 
 }
