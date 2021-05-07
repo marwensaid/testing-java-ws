@@ -1,21 +1,22 @@
 package com.openclassrooms.testing.calcul.service;
 
-import static org.assertj.core.api.Assertions.assertThat;
-import static org.mockito.ArgumentMatchers.any;
-import static org.mockito.Mockito.verify;
-import static org.mockito.Mockito.when;
-
-import org.junit.jupiter.api.BeforeEach;
-import org.junit.jupiter.api.Test;
-
 import com.openclassrooms.testing.calcul.domain.Calculator;
 import com.openclassrooms.testing.calcul.domain.model.CalculationModel;
 import com.openclassrooms.testing.calcul.domain.model.CalculationType;
+import org.junit.jupiter.api.BeforeEach;
+import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
 import org.mockito.Mock;
 import org.mockito.junit.jupiter.MockitoExtension;
 
 import java.util.Random;
+
+import static org.assertj.core.api.Assertions.assertThat;
+import static org.junit.jupiter.api.Assertions.assertThrows;
+import static org.mockito.ArgumentMatchers.any;
+import static org.mockito.Mockito.times;
+import static org.mockito.Mockito.verify;
+import static org.mockito.Mockito.when;
 
 @ExtendWith(MockitoExtension.class)
 public class CalculatorServiceTest {
@@ -77,8 +78,38 @@ public class CalculatorServiceTest {
 
 		// THEN
 		verify(calculator).add(any(Integer.class), any(Integer.class));
+		verify(calculator, times(1)).add(any(Integer.class), any(Integer.class));
 		assertThat(solution).isEqualTo(3);
 	}
+
+	@Test
+	public void divideBy0(){
+		// GIVEN
+		when(calculator.divide(1,0)).thenThrow(new ArithmeticException());
+
+		// WHEN
+		assertThrows(ArithmeticException.class,
+				()-> classUnderTest.calculate(
+						new CalculationModel(
+								CalculationType.DIVISION, 1, 0)));
+
+		// THEN
+		verify(calculator, times(1)).divide(1,0);
+	}
+
+	@Test
+	public void additionWithFormatResult(){
+		// GIVEN
+		when(calculator.add(10000,3000)).thenReturn(13000);
+
+		// WHEN
+		CalculationModel result = classUnderTest.calculate(new CalculationModel(CalculationType.ADDITION, 10000, 3000));
+
+		// THEN
+		assertThat(result).isEqualTo("13 000");
+	}
+
+
 
 
 }
