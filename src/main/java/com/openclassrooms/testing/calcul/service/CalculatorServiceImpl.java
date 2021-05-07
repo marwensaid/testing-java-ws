@@ -8,8 +8,11 @@ public class CalculatorServiceImpl implements CalculatorService {
 
 	private final Calculator calculator;
 
-	public CalculatorServiceImpl(Calculator calculator) {
+	private final SolutionFormatter solutionFormatter;
+
+	public CalculatorServiceImpl(Calculator calculator, SolutionFormatter solutionFormatter) {
 		this.calculator = calculator;
+		this.solutionFormatter = solutionFormatter;
 	}
 
 	@Override
@@ -35,6 +38,7 @@ public class CalculatorServiceImpl implements CalculatorService {
 		}
 
 		calculationModel.setSolution(response);
+		calculationModel.setSolutionFormatter(solutionFormatter.format(response));
 		return calculationModel;
 	}
 

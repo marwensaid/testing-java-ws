@@ -23,12 +23,15 @@ public class CalculatorServiceTest {
 
 	@Mock
 	Calculator calculator;
+	@Mock
+	SolutionFormatter solutionFormatter;
+
 	// Calculator IS CALLED BY CalculatorService
 	CalculatorService classUnderTest;
 
 	@BeforeEach
 	public void init(){
-		classUnderTest = new CalculatorServiceImpl(calculator);
+		classUnderTest = new CalculatorServiceImpl(calculator, solutionFormatter);
 	}
 
 	@Test
@@ -101,15 +104,13 @@ public class CalculatorServiceTest {
 	public void additionWithFormatResult(){
 		// GIVEN
 		when(calculator.add(10000,3000)).thenReturn(13000);
+		when(solutionFormatter.format(13000)).thenReturn("13 000");
 
 		// WHEN
-		CalculationModel result = classUnderTest.calculate(new CalculationModel(CalculationType.ADDITION, 10000, 3000));
+		String result = classUnderTest.calculate(new CalculationModel(CalculationType.ADDITION, 10000, 3000)).getSolutionFormatter();
 
 		// THEN
 		assertThat(result).isEqualTo("13 000");
 	}
-
-
-
 
 }
